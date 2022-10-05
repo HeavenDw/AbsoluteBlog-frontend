@@ -1,0 +1,14 @@
+.root {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  list-style-type: none;
+  li {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    opacity: 0.5;
+  }
+}

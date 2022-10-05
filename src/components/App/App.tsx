@@ -9,6 +9,7 @@ import Header from '../Header/Header';
 import { useAppDispatch } from '../../redux/hooks';
 import { login } from '../../redux/slices/auth';
 import { useAuthMeQuery } from '../../redux/api/userApi';
+import FullPostPage from '../../pages/FullPostPage';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -28,6 +29,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/posts/:id" element={<FullPostPage />} />
         </Routes>
       </Container>
     </div>
