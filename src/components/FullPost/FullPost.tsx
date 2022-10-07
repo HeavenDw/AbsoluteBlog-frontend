@@ -16,7 +16,7 @@ const FullPost = () => {
     return <div>Loading...</div>;
   }
 
-  const { user, createdAt, tags, title, text, viewsCount } = post;
+  const { user, createdAt, tags, title, text, viewsCount, imageUrl } = post;
 
   return (
     <div className={styles.root}>
@@ -31,10 +31,7 @@ const FullPost = () => {
       <Typography variant="h5" className={styles.title}>
         {title}
       </Typography>
-      <img
-        src="https://post.healthline.com/wp-content/uploads/2020/08/full-moon-night-landscape-732x549-thumbnail-1.jpg"
-        className={styles.image}
-      />
+      {imageUrl && <img src={`http://localhost:4444${imageUrl}`} />}
       <Typography variant="body1">{text}</Typography>
       <PostInfo viewsCount={viewsCount} commentsCount={3} />
     </div>

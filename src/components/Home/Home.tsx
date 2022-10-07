@@ -9,11 +9,13 @@ const Home = () => {
   const { data: posts, isLoading } = useGetPostsQuery();
   const { data: userData } = useAuthMeQuery();
 
+  const reversedPosts = [...(posts ? posts : [])].reverse();
+
   return (
     <>
       {isLoading
         ? [...Array(3)].map((item, index) => <PostSkeleton key={index} />)
-        : posts?.map((post) => (
+        : reversedPosts?.map((post) => (
             <Post
               id={post._id}
               commentsCount={3}

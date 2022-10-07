@@ -8,6 +8,7 @@ interface Post {
   viewsCount: number;
   createdAt: string;
   tags: string[];
+  imageUrl?: string;
   user: UserData;
 }
 
@@ -48,9 +49,27 @@ export const postApi = createApi({
       invalidatesTags: [{ type: 'Posts', id: 'LIST' }]
     }),
     getFullPost: builder.query<Post, string>({
-      query: (id) => `posts/${id}`,
+      query: (id) => ({
+        url: `posts/${id}`,
+        method: 'GET'
+      }),
+    }),
+    deletePost: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `posts/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: [{ type: 'Posts', id: 'LIST' }]
+    }),
+    updatePost: builder.mutation({
+      query: (body) => ({
+        url: `posts/${body.id}`,
+        method: 'PATCH',
+        body
+      }),
+      invalidatesTags: [{ type: 'Posts', id: 'LIST' }]
     }),
   })
 })
 
-export const { useGetPostsQuery, useGetFullPostQuery, useCreatePostMutation } = postApi;
+export const { useGetPostsQuery, useGetFullPostQuery, useCreatePostMutation, useDeletePostMutation, useUpdatePostMutation } = postApi;

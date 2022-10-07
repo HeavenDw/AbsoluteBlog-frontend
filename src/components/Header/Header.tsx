@@ -27,8 +27,15 @@ const Header = () => {
           {isAuth ? (
             <>
               <UserInfo />
+
+              <Link to="/create-post">
+                <Button variant="outlined" color="inherit">
+                  Создать статью
+                </Button>
+              </Link>
+
               <Button onClick={logoutHandler} variant="outlined" color="inherit">
-                Logout
+                Выйти
               </Button>
             </>
           ) : (

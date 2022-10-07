@@ -10,6 +10,7 @@ import { useAppDispatch } from '../../redux/hooks';
 import { login } from '../../redux/slices/auth';
 import { useAuthMeQuery } from '../../redux/api/userApi';
 import FullPostPage from '../../pages/FullPostPage';
+import CreatePostPage from '../../pages/CreatePostPage';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -30,6 +31,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/posts/:id" element={<FullPostPage />} />
+          <Route path="/posts/:id/edit" element={<CreatePostPage />} />
+          <Route path="/create-post" element={<CreatePostPage />} />
         </Routes>
       </Container>
     </div>

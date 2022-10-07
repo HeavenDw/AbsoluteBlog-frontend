@@ -13,8 +13,6 @@ const UserInfo = () => {
   const handleChangeFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData();
     if (event.currentTarget.files) {
-      console.log('file selected');
-
       const file = event.currentTarget.files[0];
       formData.append('image', file);
       uploadImage(formData)

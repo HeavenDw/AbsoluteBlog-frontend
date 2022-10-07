@@ -9,6 +9,7 @@ import PostUserInfo from '../PostUserInfo/PostUserInfo';
 import styles from './Post.module.css';
 import { UserData } from '../../@types/user';
 import { PostSkeleton } from './PostSekeleton';
+import { useDeletePostMutation } from '../../redux/api/postApi';
 
 interface PostProps {
   id: string;
@@ -19,6 +20,7 @@ interface PostProps {
   tags: string[];
   commentsCount: number;
   isEditable: boolean;
+  imageUrl?: string;
   isLoading?: boolean;
 }
 
@@ -30,9 +32,16 @@ const Post: FC<PostProps> = ({
   viewsCount,
   tags,
   commentsCount,
+  imageUrl,
   isEditable,
   isLoading,
 }) => {
+  const [deletePost] = useDeletePostMutation();
+
+  const onClickRemove = () => {
+    deletePost(id);
+  };
+
   if (isLoading) {
     return <PostSkeleton />;
   }
@@ -48,7 +57,7 @@ const Post: FC<PostProps> = ({
               <EditIcon />
             </IconButton>
           </Link>
-          <IconButton color="secondary">
+          <IconButton onClick={onClickRemove} color="secondary">
             <DeleteIcon />
           </IconButton>
         </div>
@@ -63,10 +72,7 @@ const Post: FC<PostProps> = ({
       <Typography variant="h5" className={styles.title}>
         <Link to={`/posts/${id}`}>{title}</Link>
       </Typography>
-      <img
-        src="https://post.healthline.com/wp-content/uploads/2020/08/full-moon-night-landscape-732x549-thumbnail-1.jpg"
-        className={styles.image}
-      />
+      {imageUrl && <img src={`http://localhost:4444${imageUrl}`} />}
       <Button variant="contained" className={styles.button}>
         <Link to={`/posts/${id}`}>Читать далее</Link>
       </Button>
