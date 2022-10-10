@@ -65,7 +65,9 @@ const Post: FC<PostProps> = ({
 
       <ul className={styles.tagsList}>
         {tags.map((tag) => (
-          <li key={tag}>#{tag}</li>
+          <li key={tag}>
+            <Link to={`/tag/${tag}`}>#{tag}</Link>
+          </li>
         ))}
       </ul>
 

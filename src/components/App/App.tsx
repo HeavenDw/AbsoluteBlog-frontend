@@ -33,6 +33,8 @@ function App() {
           <Route path="/posts/:id" element={<FullPostPage />} />
           <Route path="/posts/:id/edit" element={<CreatePostPage />} />
           <Route path="/create-post" element={<CreatePostPage />} />
+          <Route path="/tag/:tag" element={<HomePage />} />
+          <Route path="/sortBy/:sortBy" element={<HomePage />} />
         </Routes>
       </Container>
     </div>

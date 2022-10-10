@@ -1,16 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { UserData } from '../../@types/user';
-
-interface Post {
-  title: string;
-  text: string;
-  _id: string;
-  viewsCount: number;
-  createdAt: string;
-  tags: string[];
-  imageUrl?: string;
-  user: UserData;
-}
+import { Post } from '../../@types/post';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:4444',
@@ -30,8 +19,12 @@ export const postApi = createApi({
   tagTypes: ['Posts'],
   baseQuery,
   endpoints: (builder) => ({
-    getPosts: builder.query<Post[], void>({
-      query: () => 'posts',
+    getPosts: builder.query<Post[], { tag: string; sortBy: string; }>({
+      query: ({ tag, sortBy }) => ({
+        url: `posts`,
+        method: 'GET',
+        params: { tag, sortBy },
+      }),
       providesTags: (result) =>
         result
           ? [
@@ -69,7 +62,10 @@ export const postApi = createApi({
       }),
       invalidatesTags: [{ type: 'Posts', id: 'LIST' }]
     }),
+    getLastTags: builder.query<string[], void>({
+      query: () => 'tags'
+    })
   })
 })
 
-export const { useGetPostsQuery, useGetFullPostQuery, useCreatePostMutation, useDeletePostMutation, useUpdatePostMutation } = postApi;
+export const { useGetPostsQuery, useGetFullPostQuery, useCreatePostMutation, useDeletePostMutation, useUpdatePostMutation, useGetLastTagsQuery } = postApi;

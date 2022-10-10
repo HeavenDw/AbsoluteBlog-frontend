@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { commentsApi } from "./api/commentsApi";
 import { postApi } from "./api/postApi";
 import { uploadApi } from "./api/uploadApi";
 import { userApi } from "./api/userApi";
@@ -10,8 +11,9 @@ export const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
     [postApi.reducerPath]: postApi.reducer,
     [uploadApi.reducerPath]: uploadApi.reducer,
+    [commentsApi.reducerPath]: commentsApi.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat(userApi.middleware, uploadApi.middleware, postApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat(userApi.middleware, uploadApi.middleware, postApi.middleware, commentsApi.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
