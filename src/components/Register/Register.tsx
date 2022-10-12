@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useRegisterUserMutation } from '../../redux/api/userApi';
 import { login } from '../../redux/slices/auth';
-import styles from './Register.module.css';
+import styles from './Register.module.scss';
 
 type FormValues = {
   nickname: string;
@@ -63,6 +63,7 @@ const Register = () => {
               },
             })}
             fullWidth
+            color="info"
           />
         </div>
         <div className={styles.input}>
@@ -74,6 +75,7 @@ const Register = () => {
             helperText={errors.email?.message}
             {...register('email', { required: 'Укажите почту' })}
             fullWidth
+            color="info"
           />
         </div>
         <div className={styles.input}>
@@ -91,6 +93,7 @@ const Register = () => {
               },
             })}
             fullWidth
+            color="info"
           />
         </div>
 

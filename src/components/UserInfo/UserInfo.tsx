@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Avatar } from '@mui/material';
 
 import { useUploadImageMutation } from '../../redux/api/uploadApi';
 import { useAuthMeQuery, useSetAvatarMutation } from '../../redux/api/userApi';
+import styles from './UserInfo.module.scss';
 
 const UserInfo = () => {
   const { data: userData, refetch } = useAuthMeQuery();
@@ -10,7 +11,7 @@ const UserInfo = () => {
   const [setAvatar] = useSetAvatarMutation();
   const [uploadImage] = useUploadImageMutation();
 
-  const handleChangeFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData();
     if (event.currentTarget.files) {
       const file = event.currentTarget.files[0];
@@ -33,8 +34,7 @@ const UserInfo = () => {
   }, []);
 
   return (
-    <>
-      <span>{userData?.nickname}</span>
+    <div className={styles.root}>
       <input ref={inputFileRef} hidden type="file" onChange={handleChangeFile} />
       <Avatar
         src={
@@ -45,8 +45,10 @@ const UserInfo = () => {
         alt={userData?.nickname}
         onClick={() => inputFileRef?.current?.click()}
         onChange={handleChangeFile}
+        sx={{ cursor: 'pointer' }}
       />
-    </>
+      <span className={styles.nickname}>{userData?.nickname}</span>
+    </div>
   );
 };
 

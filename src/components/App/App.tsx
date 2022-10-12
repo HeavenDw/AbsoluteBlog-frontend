@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Container } from '@mui/material';
 
@@ -11,12 +11,14 @@ import { login } from '../../redux/slices/auth';
 import { useAuthMeQuery } from '../../redux/api/userApi';
 import FullPostPage from '../../pages/FullPostPage';
 import CreatePostPage from '../../pages/CreatePostPage';
+import LastPage from '../../pages/LastPage';
+import SearchPage from '../../pages/SearchPage';
 
 function App() {
   const dispatch = useAppDispatch();
 
-  const { data: userData } = useAuthMeQuery();
-  React.useEffect(() => {
+  const { data: userData, isLoading } = useAuthMeQuery();
+  useEffect(() => {
     if (userData) {
       dispatch(login());
     }
@@ -35,6 +37,8 @@ function App() {
           <Route path="/create-post" element={<CreatePostPage />} />
           <Route path="/tag/:tag" element={<HomePage />} />
           <Route path="/sortBy/:sortBy" element={<HomePage />} />
+          <Route path="/last" element={<LastPage />} />
+          <Route path="/search" element={<SearchPage />} />
         </Routes>
       </Container>
     </div>

@@ -1,1 +1,0 @@
-.root{position:relative;transition:all .3s ease 0s;display:flex;gap:20px}.root:hover .editButtons{opacity:1}.userInfo{display:flex;align-items:center;gap:10px}.editButtons{position:absolute;right:15px;top:0px;background-color:#fff;border-radius:10px;opacity:0;transition:all .15s ease-in-out}

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import EyeIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 
-import styles from './PostInfo.module.css';
+import styles from './PostInfo.module.scss';
 
 interface PostInfoProps {
   viewsCount: number;

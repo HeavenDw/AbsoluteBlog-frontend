@@ -4,7 +4,7 @@ import TimeAgo from 'javascript-time-ago';
 import ru from 'javascript-time-ago/locale/ru.json';
 import ReactTimeAgo from 'react-time-ago';
 
-import styles from './PostUserInfo.module.css';
+import styles from './PostUserInfo.module.scss';
 import { UserData } from '../../@types/user';
 
 TimeAgo.addLocale(ru);

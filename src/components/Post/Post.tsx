@@ -1,19 +1,21 @@
 import React, { FC } from 'react';
-import { Button, IconButton, Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 
 import PostInfo from '../PostInfo/PostInfo';
 import PostUserInfo from '../PostUserInfo/PostUserInfo';
-import styles from './Post.module.css';
+import styles from './Post.module.scss';
 import { UserData } from '../../@types/user';
 import { PostSkeleton } from './PostSekeleton';
 import { useDeletePostMutation } from '../../redux/api/postApi';
+import Button from '../Button/Button';
 
 interface PostProps {
   id: string;
   title: string;
+  text: string;
   user: UserData;
   createdAt: string;
   viewsCount: number;
@@ -27,6 +29,7 @@ interface PostProps {
 const Post: FC<PostProps> = ({
   id,
   title,
+  text,
   user,
   createdAt,
   viewsCount,
@@ -39,7 +42,9 @@ const Post: FC<PostProps> = ({
   const [deletePost] = useDeletePostMutation();
 
   const onClickRemove = () => {
-    deletePost(id);
+    if (window.confirm('Вы точно хотите удалить статью?')) {
+      deletePost(id);
+    }
   };
 
   if (isLoading) {
@@ -53,7 +58,7 @@ const Post: FC<PostProps> = ({
       {isEditable && (
         <div className={styles.editButtons}>
           <Link to={`/posts/${id}/edit`}>
-            <IconButton color="primary">
+            <IconButton color="info">
               <EditIcon />
             </IconButton>
           </Link>
@@ -74,10 +79,15 @@ const Post: FC<PostProps> = ({
       <Typography variant="h5" className={styles.title}>
         <Link to={`/posts/${id}`}>{title}</Link>
       </Typography>
-      {imageUrl && <img src={`http://localhost:4444${imageUrl}`} />}
-      <Button variant="contained" className={styles.button}>
-        <Link to={`/posts/${id}`}>Читать далее</Link>
-      </Button>
+      <Typography variant="body1" className={styles.text}>
+        {text}
+      </Typography>
+      {imageUrl && <img className={styles.image} src={`http://localhost:4444${imageUrl}`} />}
+
+      <Link to={`/posts/${id}`} className={styles.button}>
+        <Button variant="secondary">Читать далее</Button>
+      </Link>
+
       <PostInfo viewsCount={viewsCount} commentsCount={commentsCount} />
     </div>
   );

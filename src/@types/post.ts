@@ -11,3 +11,9 @@ export interface Post {
   imageUrl?: string;
   user: UserData;
 }
+
+export interface PostData {
+  title: string;
+  imageUrl: string;
+  tags: string[];
+}

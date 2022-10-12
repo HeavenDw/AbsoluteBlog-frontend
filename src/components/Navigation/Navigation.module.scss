@@ -1,0 +1,39 @@
+.root {
+  padding: 10px 0 0 0;
+  display: none;
+  @media (max-width: 1199px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+  a {
+    color: #000;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 10px;
+    position: relative;
+    transition: all 0.3s ease 0s;
+    @media (any-hover: hover) {
+      &:hover {
+        color: #3766a9;
+      }
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      width: calc(100% - 20px);
+      height: 1px;
+      bottom: 5px;
+      left: 10px;
+      background-color: #3766a9;
+      opacity: 0;
+    }
+  }
+  .active {
+    color: #3766a9;
+    &::after {
+      opacity: 1;
+    }
+  }
+}

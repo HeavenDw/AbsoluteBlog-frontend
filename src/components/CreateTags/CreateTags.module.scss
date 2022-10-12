@@ -1,0 +1,21 @@
+.CreateTags {
+  margin: 20px 0;
+}
+
+.list {
+  margin: 0;
+  padding: 20px 0;
+  list-style-type: none;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  li {
+    cursor: pointer;
+  }
+}
+
+.input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}

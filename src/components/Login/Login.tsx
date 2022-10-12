@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useLoginUserMutation } from '../../redux/api/userApi';
 import { login } from '../../redux/slices/auth';
-import styles from './Login.module.css';
+import styles from './Login.module.scss';
 
 type FormValues = {
   email: string;
@@ -60,6 +60,7 @@ const Login = () => {
             helperText={errors.email?.message}
             {...register('email', { required: 'Укажите почту' })}
             fullWidth
+            color="info"
           />
         </div>
         <div className={styles.input}>
@@ -77,6 +78,7 @@ const Login = () => {
               },
             })}
             fullWidth
+            color="info"
           />
         </div>
 

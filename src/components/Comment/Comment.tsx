@@ -1,13 +1,14 @@
-import React from 'react';
-import { Avatar, Button, Divider, IconButton, TextField } from '@mui/material';
+import React, { FC, useState } from 'react';
+import { Avatar, IconButton, TextField } from '@mui/material';
 import ReactTimeAgo from 'react-time-ago';
 import DeleteIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 
 import { UserData } from '../../@types/user';
-import styles from './Comment.module.css';
+import styles from './Comment.module.scss';
 import { useAuthMeQuery } from '../../redux/api/userApi';
 import { useDeleteCommentMutation, useUpdatePostMutation } from '../../redux/api/commentsApi';
+import Button from '../Button/Button';
 
 interface CommentProps {
   text: string;
@@ -17,16 +18,19 @@ interface CommentProps {
   _id: string;
 }
 
-const Comment: React.FC<CommentProps> = ({ text, postId, createdAt, user, _id }) => {
+const Comment: FC<CommentProps> = ({ text, postId, createdAt, user, _id }) => {
   const { data: userData } = useAuthMeQuery();
   const [deleteComment] = useDeleteCommentMutation();
-  const [updateComment] = useUpdatePostMutation();
+  const [updateComment, { isError }] = useUpdatePostMutation();
   const formatedDate = Date.parse(createdAt);
-  const [isEditing, setEditing] = React.useState(false);
-  const [newText, setNewText] = React.useState<string>(text);
+  const [isEditing, setEditing] = useState(false);
+  const [newText, setNewText] = useState<string>(text);
 
   const onClickRemove = () => {
-    deleteComment({ _id, postId });
+    if (window.confirm('Вы точно хотите удалить комментарий?')) {
+      deleteComment({ _id, postId });
+      alert('Комментарий успешно удален');
+    }
   };
 
   const onClickUpdateComment = () => {
@@ -40,32 +44,38 @@ const Comment: React.FC<CommentProps> = ({ text, postId, createdAt, user, _id })
     <>
       <li className={styles.root}>
         <Avatar src={'http://localhost:4444' + user?.avatarUrl} />
-        <div>
+        <div className={styles.main}>
           <div className={styles.userInfo}>
             <span>{user.nickname}</span>
             <ReactTimeAgo date={formatedDate} locale="ru-Ru" timeStyle="round" />
           </div>
-          {isEditing ? (
-            <>
-              <TextField
-                variant="outlined"
-                maxRows={10}
-                multiline
-                value={newText}
-                onChange={(e) => setNewText(e.target.value)}
-              />
-              <Button variant="contained" onClick={onClickUpdateComment}>
-                Обновить комментарий
-              </Button>
-            </>
-          ) : (
-            <span>{text}</span>
-          )}
+          <div className={styles.text}>
+            {isEditing ? (
+              <>
+                <TextField
+                  color="info"
+                  variant="outlined"
+                  maxRows={10}
+                  fullWidth
+                  multiline
+                  label={'Введите текст'}
+                  value={newText}
+                  onChange={(e) => setNewText(e.target.value)}
+                />
+                {isError && <div className={styles.error}>Не удалось обновить комментарий</div>}
+                <Button variant="secondary" onClick={onClickUpdateComment}>
+                  Обновить
+                </Button>
+              </>
+            ) : (
+              <span>{text}</span>
+            )}
+          </div>
         </div>
 
         {isEditable && (
           <div className={styles.editButtons}>
-            <IconButton onClick={() => setEditing(true)} color="primary">
+            <IconButton onClick={() => setEditing(true)} color="info">
               <EditIcon />
             </IconButton>
             <IconButton onClick={onClickRemove} color="secondary">
@@ -74,7 +84,6 @@ const Comment: React.FC<CommentProps> = ({ text, postId, createdAt, user, _id })
           </div>
         )}
       </li>
-      <Divider variant="inset" component="li" />
     </>
   );
 };

@@ -1,72 +1,52 @@
-import { Button, Paper, TextField } from '@mui/material';
-import React from 'react';
+import { Paper, TextField } from '@mui/material';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { SimpleMdeReact } from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
+import { Rings } from 'react-loader-spinner';
 
-import { useUploadImageMutation } from '../../redux/api/uploadApi';
 import { useAppSelector } from '../../redux/hooks';
-import styles from './CreatePost.module.css';
+import styles from './CreatePost.module.scss';
 import {
   useCreatePostMutation,
   useGetFullPostQuery,
   useUpdatePostMutation,
 } from '../../redux/api/postApi';
-
-interface postData {
-  title: string;
-  imageUrl: string;
-  tags: string[];
-}
+import Button from '../Button/Button';
+import { PostData } from '../../@types/post';
+import PreviewUpload from '../PreviewUpload/PreviewUpload';
+import CreateTags from '../CreateTags/CreateTags';
 
 const CreatePost = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const isAuth = useAppSelector((state) => state.auth.isAuth);
-  const [uploadImage] = useUploadImageMutation();
+
   const [createPost] = useCreatePostMutation();
   const [updatePost] = useUpdatePostMutation();
   const { data: post, refetch } = useGetFullPostQuery(id || '', { skip: !id });
-  const [errorMessage, setErrorMessage] = React.useState(null);
-  const [tag, setTag] = React.useState('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
   const isEditing = Boolean(id);
 
-  const [postData, setPostData] = React.useState<postData>({
+  const [postData, setPostData] = useState<PostData>({
     title: '',
     tags: [],
     imageUrl: '',
   });
-  const [text, setText] = React.useState('');
+  const [text, setText] = useState('');
 
-  const inputFileRef = React.useRef<HTMLInputElement>(null);
-
-  const handleChangeFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const formData = new FormData();
-    if (event.currentTarget.files) {
-      const file = event.currentTarget.files[0];
-      formData.append('image', file);
-      uploadImage(formData)
-        .unwrap()
-        .then((res) => {
-          setPostData({ ...postData, imageUrl: res.url });
-        })
-        .catch((error) => alert(error.data.message));
-    }
-    event.target.value = '';
-  };
-
-  const addTag = () => {
+  const addTag = (tag: string) => {
     if (!postData.tags.includes(tag)) {
       setPostData({ ...postData, tags: [...postData.tags, tag] });
     }
-    setTag('');
   };
 
-  const onClickRemoveImage = () => {
-    setPostData({ ...postData, imageUrl: '' });
+  const deleteTag = (removedTag: string) => {
+    setPostData({ ...postData, tags: postData.tags.filter((tag) => tag !== removedTag) });
   };
 
-  const onChange = React.useCallback((value: string) => {
+  const onChange = useCallback((value: string) => {
     setText(value);
   }, []);
 
@@ -88,7 +68,8 @@ const CreatePost = () => {
             alert('Статья обновлена');
           })
           .catch((error) => {
-            setErrorMessage(error.data[0].msg);
+            const message = error.data[0].msg || error.data.message;
+            setErrorMessage(message);
           })
       : createPost(fields)
           .unwrap()
@@ -98,11 +79,12 @@ const CreatePost = () => {
             alert('Статья создана');
           })
           .catch((error) => {
-            setErrorMessage(error.data[0].msg);
+            const message = error.data[0].msg || error.data.message;
+            setErrorMessage(message);
           });
   };
 
-  const options = React.useMemo(() => {
+  const options = useMemo(() => {
     return {
       autofocus: true,
       spellChecker: false,
@@ -116,7 +98,7 @@ const CreatePost = () => {
     };
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (post) {
       setPostData({
         title: post.title,
@@ -132,52 +114,31 @@ const CreatePost = () => {
   }
 
   if (isEditing && !post) {
-    <div>Loader</div>;
+    <Rings
+      height="200"
+      width="200"
+      color="#d32f2f"
+      radius="6"
+      visible={true}
+      ariaLabel="rings-loading"
+    />;
   }
+
   return (
     <Paper sx={{ p: '20px' }}>
-      <Button onClick={() => inputFileRef?.current?.click()} variant="outlined" size="large">
-        Загрузить превью
-      </Button>
-      <input ref={inputFileRef} hidden type="file" onChange={handleChangeFile} />
-      {postData.imageUrl && (
-        <>
-          <Button variant="contained" color="error" onClick={onClickRemoveImage}>
-            Удалить
-          </Button>
-          <img
-            className={styles.image}
-            src={`http://localhost:4444${postData.imageUrl}`}
-            alt="Uploaded"
-          />
-        </>
-      )}
+      <PreviewUpload postData={postData} setPostData={setPostData} />
 
       <TextField
-        classes={{ root: styles.title }}
-        variant="standard"
-        placeholder="Заголовок статьи..."
+        color="info"
+        className={styles.title}
+        variant="outlined"
+        label="Заголовок статьи"
         value={postData.title}
         onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         fullWidth
       />
 
-      {postData.tags && (
-        <ul>
-          {postData.tags.map((tag: string) => (
-            <li key={tag}>{tag}</li>
-          ))}
-        </ul>
-      )}
-
-      <TextField
-        value={tag}
-        onChange={(e) => setTag(e.target.value)}
-        variant="standard"
-        placeholder="Введите тэг"
-        fullWidth
-      />
-      <Button onClick={addTag}>Добавить тег</Button>
+      <CreateTags tags={postData.tags} addTag={addTag} deleteTag={deleteTag} />
 
       <SimpleMdeReact
         className={styles.editor}
@@ -189,11 +150,11 @@ const CreatePost = () => {
       {errorMessage && <div className={styles.error}>{errorMessage}</div>}
 
       <div className={styles.buttons}>
-        <Button onClick={onSubmit} size="large" variant="contained">
+        <Button onClick={onSubmit} variant="secondary">
           {isEditing ? 'Сохранить' : 'Опубликовать'}
         </Button>
         <Link to="/">
-          <Button size="large">Отмена</Button>
+          <Button>Отмена</Button>
         </Link>
       </div>
     </Paper>

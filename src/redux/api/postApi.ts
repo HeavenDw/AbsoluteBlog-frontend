@@ -19,11 +19,11 @@ export const postApi = createApi({
   tagTypes: ['Posts'],
   baseQuery,
   endpoints: (builder) => ({
-    getPosts: builder.query<Post[], { tag: string; sortBy: string; }>({
-      query: ({ tag, sortBy }) => ({
+    getPosts: builder.query<Post[], { tag?: string; sortBy?: string; searchBy?: string }>({
+      query: ({ tag, sortBy, searchBy }) => ({
         url: `posts`,
         method: 'GET',
-        params: { tag, sortBy },
+        params: { tag, sortBy, searchBy },
       }),
       providesTags: (result) =>
         result

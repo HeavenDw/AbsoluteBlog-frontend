@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Clear';
 
 import { useGetPostsQuery } from '../../redux/api/postApi';
 import { useAuthMeQuery } from '../../redux/api/userApi';
@@ -8,30 +9,31 @@ import Post from '../Post/Post';
 import { PostSkeleton } from '../Post/PostSekeleton';
 import TagsBlock from '../TagsBlock/TagsBlock';
 import CommentsBlock from '../CommentsBlock/CommentsBlock';
+import SortList from '../SortList/SortList';
+import styles from './Home.module.scss';
+import Navigation from '../Navigation/Navigation';
 
 const Home = () => {
   const { tag, sortBy } = useParams();
-  const [tab, setTab] = React.useState(0);
-  const { data: posts, isLoading } = useGetPostsQuery({ tag: tag || '', sortBy: sortBy || '' });
+  const { data: posts, isLoading, isError } = useGetPostsQuery({ tag: tag, sortBy: sortBy });
   const { data: userData } = useAuthMeQuery();
 
   return (
     <>
-      {tag && <div>#{tag}</div>}
-      <ul>
-        <li className={tab === 0 ? 'active' : ''}>
-          <Link to="/" onClick={() => setTab(0)}>
-            Новые
+      <Navigation />
+      {tag && (
+        <div className={styles.tag}>
+          <span>Выбранный тэг: #{tag}</span>
+          <Link to="/">
+            <DeleteIcon />
           </Link>
-        </li>
-        <li className={tab === 1 ? 'active' : ''}>
-          <Link to="/sortBy/popular" onClick={() => setTab(1)}>
-            Популярные
-          </Link>
-        </li>
-      </ul>
-      <Grid container spacing={4}>
-        <Grid xs={8} item>
+        </div>
+      )}
+      <SortList />
+
+      {isError && <div className={styles.error}>Не удалось загрузить статьи</div>}
+      <Grid container spacing={4} sx={{ mt: 0 }}>
+        <Grid xs={12} lg={8} item>
           {isLoading
             ? [...Array(3)].map((item, index) => <PostSkeleton key={index} />)
             : posts?.map((post) => (
@@ -43,7 +45,12 @@ const Home = () => {
                 />
               ))}
         </Grid>
-        <Grid xs={4} item>
+        <Grid
+          sx={{
+            display: { xs: 'none', lg: 'block' },
+          }}
+          lg={4}
+          item>
           <TagsBlock />
           <CommentsBlock />
         </Grid>

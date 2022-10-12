@@ -1,17 +1,18 @@
-import React from 'react';
-import { Avatar, Button, TextField } from '@mui/material';
+import React, { FC, useState } from 'react';
+import { Avatar, TextField } from '@mui/material';
 
-import styles from './Index.module.css';
+import styles from './Index.module.scss';
 import { useCreateCommentMutation } from '../../redux/api/commentsApi';
 import { useAuthMeQuery } from '../../redux/api/userApi';
+import Button from '../Button/Button';
 
 interface IndexProps {
   postId: string;
 }
 
-const Index: React.FC<IndexProps> = ({ postId }) => {
-  const [text, setText] = React.useState('');
-  const [createComment] = useCreateCommentMutation();
+const Index: FC<IndexProps> = ({ postId }) => {
+  const [text, setText] = useState('');
+  const [createComment, { isError }] = useCreateCommentMutation();
   const { data: userData } = useAuthMeQuery();
 
   const createPostComment = async () => {
@@ -22,10 +23,7 @@ const Index: React.FC<IndexProps> = ({ postId }) => {
 
     createComment(fields)
       .unwrap()
-      .then(() => setText(''))
-      .catch((error) => {
-        console.log(error);
-      });
+      .then(() => setText(''));
   };
 
   return (
@@ -35,13 +33,15 @@ const Index: React.FC<IndexProps> = ({ postId }) => {
         <TextField
           label="Написать комментарий"
           variant="outlined"
+          color="info"
           maxRows={10}
           multiline
           fullWidth
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <Button sx={{ mt: '10px' }} variant="contained" onClick={createPostComment}>
+        {isError && <div className={styles.error}>Не удалось создать комментарий</div>}
+        <Button variant="secondary" onClick={createPostComment}>
           Отправить
         </Button>
       </div>
