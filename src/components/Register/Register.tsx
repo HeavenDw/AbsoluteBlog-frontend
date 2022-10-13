@@ -33,9 +33,9 @@ const Register = () => {
       .then((payload) => {
         window.localStorage.setItem('token', payload.token);
         dispatch(login());
-        alert('Вы успешно зарегестрированы');
+        alert('Вы успешно зарегистрированы');
       })
-      .catch((error) => setErrorMessage(error.data.message));
+      .catch((error) => setErrorMessage(error.data.message || error.data[0].msg));
   });
 
   if (isAuth) {
