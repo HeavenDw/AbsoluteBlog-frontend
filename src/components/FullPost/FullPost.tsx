@@ -1,11 +1,12 @@
-import { Typography } from '@mui/material';
 import React from 'react';
+import { Rings } from 'react-loader-spinner';
 import ReactMarkdown from 'react-markdown';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { useGetCommentsQuery } from '../../redux/api/commentsApi';
 import { useDeletePostMutation, useGetFullPostQuery } from '../../redux/api/postApi';
 import { useAuthMeQuery } from '../../redux/api/userApi';
+import { useAppSelector } from '../../redux/hooks';
 import Button from '../Button/Button';
 import Comment from '../Comment/Comment';
 import Index from '../Index/Index';
@@ -21,12 +22,24 @@ const FullPost = () => {
   const { data: userData } = useAuthMeQuery();
   const [deletePost] = useDeletePostMutation();
   const navigate = useNavigate();
+  const isAuth = useAppSelector((state) => state.auth.isAuth);
 
   if (!post) {
-    return <div>Loader</div>;
+    return (
+      <Rings
+        height="200"
+        width="200"
+        color="#d32f2f"
+        radius="6"
+        visible={true}
+        ariaLabel="rings-loading"
+      />
+    );
   }
 
   const { user, createdAt, tags, title, text, viewsCount, imageUrl, _id } = post;
+
+  const isEditable = isAuth && userData?._id === user._id;
 
   const onClickRemove = () => {
     if (window.confirm('Вы точно хотите удалить статью?')) {
@@ -34,8 +47,6 @@ const FullPost = () => {
       navigate('/');
     }
   };
-
-  const isEditable = userData?._id === user._id;
 
   return (
     <div className={styles.root}>
@@ -63,7 +74,7 @@ const FullPost = () => {
         <h3 className={styles.title}>{title}</h3>
         {imageUrl && (
           <div className={styles.image}>
-            <img src={`http://localhost:4444${imageUrl}`} />
+            <img src={`https://absolute-blog.herokuapp.com${imageUrl}`} alt="post preview" />
           </div>
         )}
         <ReactMarkdown children={text} />
@@ -80,7 +91,7 @@ const FullPost = () => {
         ) : (
           <div>Нет комментариев</div>
         )}
-        <Index postId={_id} />
+        {isAuth && <Index postId={_id} />}
       </div>
     </div>
   );

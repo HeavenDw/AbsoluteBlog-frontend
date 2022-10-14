@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef } from 'react';
 import { Avatar } from '@mui/material';
 
 import { useUploadImageMutation } from '../../redux/api/uploadApi';
@@ -39,8 +39,8 @@ const UserInfo = () => {
       <Avatar
         src={
           userData?.avatarUrl
-            ? 'http://localhost:4444' + userData.avatarUrl
-            : 'http://localhost:4444/uploads/no-avatar.png'
+            ? 'https://absolute-blog.herokuapp.com' + userData.avatarUrl
+            : 'https://absolute-blog.herokuapp.com/uploads/no-avatar.png'
         }
         alt={userData?.nickname}
         onClick={() => inputFileRef?.current?.click()}

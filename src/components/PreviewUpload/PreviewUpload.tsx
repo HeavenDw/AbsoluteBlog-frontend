@@ -7,7 +7,7 @@ import styles from './PreviewUpload.module.scss';
 
 interface previewUploadProps {
   postData: PostData;
-  setPostData: ({}: PostData) => void;
+  setPostData: (arg: PostData) => void;
 }
 
 const PreviewUpload: FC<previewUploadProps> = ({ postData, setPostData }) => {
@@ -52,7 +52,7 @@ const PreviewUpload: FC<previewUploadProps> = ({ postData, setPostData }) => {
         <div className={styles.image}>
           <img
             className={styles.image}
-            src={`http://localhost:4444${postData.imageUrl}`}
+            src={`https://absolute-blog.herokuapp.com${postData.imageUrl}`}
             alt="Uploaded"
           />
         </div>

@@ -17,7 +17,7 @@ import SearchPage from '../../pages/SearchPage';
 function App() {
   const dispatch = useAppDispatch();
 
-  const { data: userData, isLoading } = useAuthMeQuery();
+  const { data: userData } = useAuthMeQuery();
   useEffect(() => {
     if (userData) {
       dispatch(login());

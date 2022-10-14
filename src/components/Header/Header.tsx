@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { AppBar } from '@mui/material';
 import { Container } from '@mui/system';
 import { Link } from 'react-router-dom';
@@ -15,14 +15,6 @@ const Header = () => {
   const isAuth = useAppSelector((state) => state.auth.isAuth);
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [isOpen]);
 
   const logoutHandler = () => {
     if (window.confirm('Вы действительно хотите выйти?')) {

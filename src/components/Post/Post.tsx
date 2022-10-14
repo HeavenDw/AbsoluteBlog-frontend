@@ -82,7 +82,13 @@ const Post: FC<PostProps> = ({
       <Typography variant="body1" className={styles.text}>
         {text}
       </Typography>
-      {imageUrl && <img className={styles.image} src={`http://localhost:4444${imageUrl}`} />}
+      {imageUrl && (
+        <img
+          className={styles.image}
+          src={`https://absolute-blog.herokuapp.com${imageUrl}`}
+          alt="post preview"
+        />
+      )}
 
       <Link to={`/posts/${id}`} className={styles.button}>
         <Button variant="secondary">Читать далее</Button>

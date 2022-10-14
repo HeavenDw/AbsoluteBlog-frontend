@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Post } from '../../@types/post';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:4444',
+  baseUrl: 'https://absolute-blog.herokuapp.com',
   prepareHeaders: (headers) => {
     const token = window.localStorage.getItem('token');
 

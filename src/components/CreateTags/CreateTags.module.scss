@@ -4,7 +4,7 @@
 
 .list {
   margin: 0;
-  padding: 20px 0;
+  padding: 0 0 20px;
   list-style-type: none;
   display: flex;
   gap: 6px;
@@ -18,4 +18,9 @@
   display: flex;
   gap: 10px;
   align-items: center;
+}
+
+.error {
+  margin: 15px 0 0 0;
+  color: #d32f2f;
 }

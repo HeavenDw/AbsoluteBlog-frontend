@@ -84,12 +84,19 @@ const CreatePost = () => {
           });
   };
 
+  const cancel = () => {
+    if (window.confirm('Вы точно хотите отменить создание статьи?')) {
+      navigate('/');
+    }
+  };
+
   const options = useMemo(() => {
     return {
       autofocus: true,
       spellChecker: false,
       placeholder: 'Введите текст...',
       status: false,
+      hideIcons: ['fullscreen', 'side-by-side'],
       autosave: {
         enabled: true,
         delay: 1000,
@@ -153,9 +160,7 @@ const CreatePost = () => {
         <Button onClick={onSubmit} variant="secondary">
           {isEditing ? 'Сохранить' : 'Опубликовать'}
         </Button>
-        <Link to="/">
-          <Button>Отмена</Button>
-        </Link>
+        <Button onClick={cancel}>Отмена</Button>
       </div>
     </Paper>
   );

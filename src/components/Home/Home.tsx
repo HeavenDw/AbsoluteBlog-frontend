@@ -12,11 +12,13 @@ import CommentsBlock from '../CommentsBlock/CommentsBlock';
 import SortList from '../SortList/SortList';
 import styles from './Home.module.scss';
 import Navigation from '../Navigation/Navigation';
+import { useAppSelector } from '../../redux/hooks';
 
 const Home = () => {
   const { tag, sortBy } = useParams();
   const { data: posts, isLoading, isError } = useGetPostsQuery({ tag: tag, sortBy: sortBy });
   const { data: userData } = useAuthMeQuery();
+  const isAuth = useAppSelector((state) => state.auth.isAuth);
 
   return (
     <>
@@ -41,7 +43,7 @@ const Home = () => {
                   id={post._id}
                   key={post._id}
                   {...post}
-                  isEditable={userData?._id === post.user?._id}
+                  isEditable={isAuth && userData?._id === post.user?._id}
                 />
               ))}
         </Grid>

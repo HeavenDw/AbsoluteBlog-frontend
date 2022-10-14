@@ -9,6 +9,7 @@ import styles from './Comment.module.scss';
 import { useAuthMeQuery } from '../../redux/api/userApi';
 import { useDeleteCommentMutation, useUpdatePostMutation } from '../../redux/api/commentsApi';
 import Button from '../Button/Button';
+import { useAppSelector } from '../../redux/hooks';
 
 interface CommentProps {
   text: string;
@@ -25,6 +26,7 @@ const Comment: FC<CommentProps> = ({ text, postId, createdAt, user, _id }) => {
   const formatedDate = Date.parse(createdAt);
   const [isEditing, setEditing] = useState(false);
   const [newText, setNewText] = useState<string>(text);
+  const isAuth = useAppSelector((state) => state.auth.isAuth);
 
   const onClickRemove = () => {
     if (window.confirm('Вы точно хотите удалить комментарий?')) {
@@ -38,12 +40,12 @@ const Comment: FC<CommentProps> = ({ text, postId, createdAt, user, _id }) => {
     setEditing(false);
   };
 
-  const isEditable = userData?._id === user._id;
+  const isEditable = isAuth && userData?._id === user._id;
 
   return (
     <>
       <li className={styles.root}>
-        <Avatar src={'http://localhost:4444' + user?.avatarUrl} />
+        <Avatar src={'https://absolute-blog.herokuapp.com' + user?.avatarUrl} />
         <div className={styles.main}>
           <div className={styles.userInfo}>
             <span>{user.nickname}</span>

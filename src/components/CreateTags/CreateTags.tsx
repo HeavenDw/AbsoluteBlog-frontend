@@ -11,10 +11,16 @@ interface CreateTagsProps {
 
 const CreateTags: FC<CreateTagsProps> = ({ tags, addTag, deleteTag }) => {
   const [tag, setTag] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleAddTag = () => {
-    addTag(tag);
-    setTag('');
+    if (tag.length >= 2) {
+      addTag(tag);
+      setTag('');
+      setErrorMessage('');
+    } else {
+      setErrorMessage('Тэг должен быть минимум 5 символов');
+    }
   };
 
   const isTags = Boolean(tags?.length);
@@ -38,10 +44,14 @@ const CreateTags: FC<CreateTagsProps> = ({ tags, addTag, deleteTag }) => {
           variant="outlined"
           color="info"
           label="Введите тэг"
+          type="text"
         />
+
         <Button variant="secondary" onClick={handleAddTag}>
           Добавить
         </Button>
+
+        {errorMessage && <div className={styles.error}>{errorMessage}</div>}
       </div>
     </div>
   );

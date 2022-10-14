@@ -6,7 +6,7 @@ import styles from './Logo.module.scss';
 const Logo = () => {
   return (
     <Link to="/" className={styles.root}>
-      <img src="/logo.png" />
+      <img src="/logo.png" alt="Absolute Blog" />
     </Link>
   );
 };

@@ -1,5 +1,5 @@
 import { TextField } from '@mui/material';
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 
 import { useGetPostsQuery } from '../../redux/api/postApi';
 import { useAuthMeQuery } from '../../redux/api/userApi';
