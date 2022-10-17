@@ -27,7 +27,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Container maxWidth="lg" sx={{ pt: '100px' }}>
+      <Container maxWidth="lg" sx={{ pt: '100px', pb: '50px' }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
