@@ -45,7 +45,7 @@ const Comment: FC<CommentProps> = ({ text, postId, createdAt, user, _id }) => {
   return (
     <>
       <li className={styles.root}>
-        <Avatar src={'https://absolute-blog.herokuapp.com' + user?.avatarUrl} />
+        <Avatar src={user?.avatarUrl} />
         <div className={styles.main}>
           <div className={styles.userInfo}>
             <span>{user.nickname}</span>

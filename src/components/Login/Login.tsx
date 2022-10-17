@@ -26,7 +26,7 @@ const Login = () => {
   } = useForm<FormValues>({
     mode: 'onChange',
     defaultValues: {
-      email: 'test@mail.ru',
+      email: 'testuser@test.ru',
       password: '12345',
     },
   });

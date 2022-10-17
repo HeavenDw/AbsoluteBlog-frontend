@@ -50,11 +50,7 @@ const PreviewUpload: FC<previewUploadProps> = ({ postData, setPostData }) => {
 
       {postData.imageUrl && (
         <div className={styles.image}>
-          <img
-            className={styles.image}
-            src={`https://absolute-blog.herokuapp.com${postData.imageUrl}`}
-            alt="Uploaded"
-          />
+          <img className={styles.image} src={postData.imageUrl} alt="Uploaded" />
         </div>
       )}
     </div>

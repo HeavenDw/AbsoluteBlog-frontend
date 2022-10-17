@@ -19,7 +19,7 @@ const CreateTags: FC<CreateTagsProps> = ({ tags, addTag, deleteTag }) => {
       setTag('');
       setErrorMessage('');
     } else {
-      setErrorMessage('Тэг должен быть минимум 5 символов');
+      setErrorMessage('Тэг должен быть минимум 2 символа');
     }
   };
 

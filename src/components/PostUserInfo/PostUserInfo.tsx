@@ -23,7 +23,7 @@ const PostUserInfo: FC<PostUserInfoProps> = ({ userData, date }) => {
         <Avatar
           src={
             userData.avatarUrl
-              ? 'https://absolute-blog.herokuapp.com' + userData.avatarUrl
+              ? userData.avatarUrl
               : 'https://absolute-blog.herokuapp.com/uploads/no-avatar.png'
           }
         />

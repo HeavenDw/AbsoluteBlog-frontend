@@ -28,7 +28,7 @@ const Index: FC<IndexProps> = ({ postId }) => {
 
   return (
     <div className={styles.root}>
-      <Avatar src={'https://absolute-blog.herokuapp.com' + userData?.avatarUrl} />
+      <Avatar src={userData?.avatarUrl} />
       <div className={styles.form}>
         <TextField
           label="Написать комментарий"

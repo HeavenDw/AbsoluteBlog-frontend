@@ -74,10 +74,10 @@ const FullPost = () => {
         <h3 className={styles.title}>{title}</h3>
         {imageUrl && (
           <div className={styles.image}>
-            <img src={`https://absolute-blog.herokuapp.com${imageUrl}`} alt="post preview" />
+            <img src={imageUrl} alt="post preview" />
           </div>
         )}
-        <ReactMarkdown children={text} />
+        <ReactMarkdown children={text} className={styles.text} />
         <PostInfo viewsCount={viewsCount} commentsCount={comments?.length || 0} />
       </div>
 

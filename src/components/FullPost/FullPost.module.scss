@@ -36,6 +36,19 @@
   margin: 0;
 }
 
+.text {
+  font-size: 18px;
+  line-height: 27px;
+  a {
+    color: #3766a9;
+    @media (any-hover: hover) {
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}
+
 .image {
   background-color: #f2f2f2;
   display: flex;
